@@ -4,9 +4,259 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="index.js" type="module"></script>
+    <script src="index.js" type="module" defer></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    
+    <h1>battleship</h1>
+    <div id="gameboardContainer">
+        <div id="playerOneGameboard">
+            <div class="row">
+                <div class="box" data-cell="0"></div>
+                <div class="box" data-cell="1"></div>
+                <div class="box" data-cell="2"></div>
+                <div class="box" data-cell="3"></div>
+                <div class="box" data-cell="4"></div>
+                <div class="box" data-cell="5"></div>
+                <div class="box" data-cell="6"></div>
+                <div class="box" data-cell="7"></div>
+                <div class="box" data-cell="8"></div>
+                <div class="box" data-cell="9"></div>
+            </div>
+            <div class="row">
+                <div class="box" data-cell="10"></div>
+                <div class="box" data-cell="11"></div>
+                <div class="box" data-cell="12"></div>
+                <div class="box" data-cell="13"></div>
+                <div class="box" data-cell="14"></div>
+                <div class="box" data-cell="15"></div>
+                <div class="box" data-cell="16"></div>
+                <div class="box" data-cell="17"></div>
+                <div class="box" data-cell="18"></div>
+                <div class="box" data-cell="19"></div>
+            </div>
+            <div class="row">
+                <div class="box" data-cell="20"></div>
+                <div class="box" data-cell="21"></div>
+                <div class="box" data-cell="22"></div>
+                <div class="box" data-cell="23"></div>
+                <div class="box" data-cell="24"></div>
+                <div class="box" data-cell="25"></div>
+                <div class="box" data-cell="26"></div>
+                <div class="box" data-cell="27"></div>
+                <div class="box" data-cell="28"></div>
+                <div class="box" data-cell="29"></div>
+            </div>
+            <div class="row">
+                <div class="box" data-cell="30"></div>
+                <div class="box" data-cell="31"></div>
+                <div class="box" data-cell="32"></div>
+                <div class="box" data-cell="33"></div>
+                <div class="box" data-cell="34"></div>
+                <div class="box" data-cell="35"></div>
+                <div class="box" data-cell="36"></div>
+                <div class="box" data-cell="37"></div>
+                <div class="box" data-cell="38"></div>
+                <div class="box" data-cell="39"></div>
+            </div>
+            <div class="row">
+                <div class="box" data-cell="40"></div>
+                <div class="box" data-cell="41"></div>
+                <div class="box" data-cell="42"></div>
+                <div class="box" data-cell="43"></div>
+                <div class="box" data-cell="44"></div>
+                <div class="box" data-cell="45"></div>
+                <div class="box" data-cell="46"></div>
+                <div class="box" data-cell="47"></div>
+                <div class="box" data-cell="48"></div>
+                <div class="box" data-cell="49"></div>
+            </div>
+            <div class="row">
+                <div class="box" data-cell="50"></div>
+                <div class="box" data-cell="51"></div>
+                <div class="box" data-cell="52"></div>
+                <div class="box" data-cell="53"></div>
+                <div class="box" data-cell="54"></div>
+                <div class="box" data-cell="55"></div>
+                <div class="box" data-cell="56"></div>
+                <div class="box" data-cell="57"></div>
+                <div class="box" data-cell="58"></div>
+                <div class="box" data-cell="59"></div>
+            </div>
+            <div class="row">
+                <div class="box" data-cell="60"></div>
+                <div class="box" data-cell="61"></div>
+                <div class="box" data-cell="62"></div>
+                <div class="box" data-cell="63"></div>
+                <div class="box" data-cell="64"></div>
+                <div class="box" data-cell="65"></div>
+                <div class="box" data-cell="66"></div>
+                <div class="box" data-cell="67"></div>
+                <div class="box" data-cell="68"></div>
+                <div class="box" data-cell="69"></div>
+            </div>
+            <div class="row">
+                <div class="box" data-cell="70"></div>
+                <div class="box" data-cell="71"></div>
+                <div class="box" data-cell="72"></div>
+                <div class="box" data-cell="73"></div>
+                <div class="box" data-cell="74"></div>
+                <div class="box" data-cell="75"></div>
+                <div class="box" data-cell="76"></div>
+                <div class="box" data-cell="77"></div>
+                <div class="box" data-cell="78"></div>
+                <div class="box" data-cell="79"></div>
+            </div>
+            <div class="row">
+                <div class="box" data-cell="80"></div>
+                <div class="box" data-cell="81"></div>
+                <div class="box" data-cell="82"></div>
+                <div class="box" data-cell="83"></div>
+                <div class="box" data-cell="84"></div>
+                <div class="box" data-cell="85"></div>
+                <div class="box" data-cell="86"></div>
+                <div class="box" data-cell="87"></div>
+                <div class="box" data-cell="88"></div>
+                <div class="box" data-cell="89"></div>
+            </div>
+            <div class="row">
+                <div class="box" data-cell="80"></div>
+                <div class="box" data-cell="81"></div>
+                <div class="box" data-cell="82"></div>
+                <div class="box" data-cell="83"></div>
+                <div class="box" data-cell="84"></div>
+                <div class="box" data-cell="85"></div>
+                <div class="box" data-cell="86"></div>
+                <div class="box" data-cell="87"></div>
+                <div class="box" data-cell="88"></div>
+                <div class="box" data-cell="89"></div>
+            </div>
+        </div>
+        
+        <div id="playerTwoGameboard">
+            <div class="row">
+                <div class="box" data-cell="0"></div>
+                <div class="box" data-cell="1"></div>
+                <div class="box" data-cell="2"></div>
+                <div class="box" data-cell="3"></div>
+                <div class="box" data-cell="4"></div>
+                <div class="box" data-cell="5"></div>
+                <div class="box" data-cell="6"></div>
+                <div class="box" data-cell="7"></div>
+                <div class="box" data-cell="8"></div>
+                <div class="box" data-cell="9"></div>
+            </div>
+            <div class="row">
+                <div class="box" data-cell="10"></div>
+                <div class="box" data-cell="11"></div>
+                <div class="box" data-cell="12"></div>
+                <div class="box" data-cell="13"></div>
+                <div class="box" data-cell="14"></div>
+                <div class="box" data-cell="15"></div>
+                <div class="box" data-cell="16"></div>
+                <div class="box" data-cell="17"></div>
+                <div class="box" data-cell="18"></div>
+                <div class="box" data-cell="19"></div>
+            </div>
+            <div class="row">
+                <div class="box" data-cell="20"></div>
+                <div class="box" data-cell="21"></div>
+                <div class="box" data-cell="22"></div>
+                <div class="box" data-cell="23"></div>
+                <div class="box" data-cell="24"></div>
+                <div class="box" data-cell="25"></div>
+                <div class="box" data-cell="26"></div>
+                <div class="box" data-cell="27"></div>
+                <div class="box" data-cell="28"></div>
+                <div class="box" data-cell="29"></div>
+            </div>
+            <div class="row">
+                <div class="box" data-cell="30"></div>
+                <div class="box" data-cell="31"></div>
+                <div class="box" data-cell="32"></div>
+                <div class="box" data-cell="33"></div>
+                <div class="box" data-cell="34"></div>
+                <div class="box" data-cell="35"></div>
+                <div class="box" data-cell="36"></div>
+                <div class="box" data-cell="37"></div>
+                <div class="box" data-cell="38"></div>
+                <div class="box" data-cell="39"></div>
+            </div>
+            <div class="row">
+                <div class="box" data-cell="40"></div>
+                <div class="box" data-cell="41"></div>
+                <div class="box" data-cell="42"></div>
+                <div class="box" data-cell="43"></div>
+                <div class="box" data-cell="44"></div>
+                <div class="box" data-cell="45"></div>
+                <div class="box" data-cell="46"></div>
+                <div class="box" data-cell="47"></div>
+                <div class="box" data-cell="48"></div>
+                <div class="box" data-cell="49"></div>
+            </div>
+            <div class="row">
+                <div class="box" data-cell="50"></div>
+                <div class="box" data-cell="51"></div>
+                <div class="box" data-cell="52"></div>
+                <div class="box" data-cell="53"></div>
+                <div class="box" data-cell="54"></div>
+                <div class="box" data-cell="55"></div>
+                <div class="box" data-cell="56"></div>
+                <div class="box" data-cell="57"></div>
+                <div class="box" data-cell="58"></div>
+                <div class="box" data-cell="59"></div>
+            </div>
+            <div class="row">
+                <div class="box" data-cell="60"></div>
+                <div class="box" data-cell="61"></div>
+                <div class="box" data-cell="62"></div>
+                <div class="box" data-cell="63"></div>
+                <div class="box" data-cell="64"></div>
+                <div class="box" data-cell="65"></div>
+                <div class="box" data-cell="66"></div>
+                <div class="box" data-cell="67"></div>
+                <div class="box" data-cell="68"></div>
+                <div class="box" data-cell="69"></div>
+            </div>
+            <div class="row">
+                <div class="box" data-cell="70"></div>
+                <div class="box" data-cell="71"></div>
+                <div class="box" data-cell="72"></div>
+                <div class="box" data-cell="73"></div>
+                <div class="box" data-cell="74"></div>
+                <div class="box" data-cell="75"></div>
+                <div class="box" data-cell="76"></div>
+                <div class="box" data-cell="77"></div>
+                <div class="box" data-cell="78"></div>
+                <div class="box" data-cell="79"></div>
+            </div>
+            <div class="row">
+                <div class="box" data-cell="80"></div>
+                <div class="box" data-cell="81"></div>
+                <div class="box" data-cell="82"></div>
+                <div class="box" data-cell="83"></div>
+                <div class="box" data-cell="84"></div>
+                <div class="box" data-cell="85"></div>
+                <div class="box" data-cell="86"></div>
+                <div class="box" data-cell="87"></div>
+                <div class="box" data-cell="88"></div>
+                <div class="box" data-cell="89"></div>
+            </div>
+            <div class="row">
+                <div class="box" data-cell="80"></div>
+                <div class="box" data-cell="81"></div>
+                <div class="box" data-cell="82"></div>
+                <div class="box" data-cell="83"></div>
+                <div class="box" data-cell="84"></div>
+                <div class="box" data-cell="85"></div>
+                <div class="box" data-cell="86"></div>
+                <div class="box" data-cell="87"></div>
+                <div class="box" data-cell="88"></div>
+                <div class="box" data-cell="89"></div>
+            </div>
+        </div>
+
+    </div>
+
 </body>
 </html>
