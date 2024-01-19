@@ -28,18 +28,22 @@ export class Gameboard {
     placeShip(length, orientation, coordinateLetter, coordinateNumber, shipName){
         let coordinate = this.convertCoordinateToNumber(coordinateLetter, coordinateNumber);
         this.allShips[shipName] = new Ship(length);
+        const outputArray = [];
 
         for (let i = 0; i < length; i++){
             if(orientation === 'horizontal'){
                 this.gameboardSlots[coordinate + i] = shipName;
+                outputArray.push(coordinate + i);
             }else if(orientation === 'vertical'){
                 this.gameboardSlots[coordinate + i*10] = shipName;
+                outputArray.push(coordinate+i * 10);
             }
         }
+        return outputArray;
     }
 
-    receiveAttack(coordinateLetter, coordinateNumber){
-        const coordinate = this.convertCoordinateToNumber(coordinateLetter, coordinateNumber);
+    receiveAttack(coordinate){
+        // const coordinate = this.convertCoordinateToNumber(coordinateLetter, coordinateNumber);
 
         if (!this.gameboardSlots[coordinate]){
             this.gameboardSlots[coordinate] = 'miss';
@@ -57,7 +61,6 @@ export class Gameboard {
     allShipsSunkCheck(){
         let booleanHolder = false;
         for(const boat in this.allShips){
-            console.log(this.allShips[boat].isSunk());
             if(this.allShips[boat].isSunk()){
                 booleanHolder = true;
             }else{
@@ -72,10 +75,34 @@ export class Gameboard {
         const letterToNumber = coordinateLetter.toString().toUpperCase().charCodeAt();
         return (letterToNumber - 65) * 10 + (coordinateNumber - 1);
     }
+
+    renderShip(shipCoordinateArray, playerGameboard, color){
+        shipCoordinateArray.forEach((cell) => {
+            playerGameboard.querySelector(`div[data-cell='${cell}']`).style.backgroundColor = color;    
+        })    
+    }
+
+    renderBoard(playerGameboard){
+        this.gameboardSlots.forEach((slot, index) => {
+            if(slot === 'hit'){
+                playerGameboard.querySelector(`div[data-cell='${index}']`).style.backgroundColor = 'red';    
+            }else if(slot === 'miss'){
+                playerGameboard.querySelector(`div[data-cell='${index}']`).style.backgroundColor = 'lightblue';
+            }
+        })
+    }
 }
 
 export class Player {
-    constructor(name){
-        this.name = name;
+    constructor(){
+        this.isTheirTurn = false;
+        this.gameboard = new Gameboard;
+        this.isAI = false;
     }
+
+    sendAttack(gameboard, coordinate){
+        gameboard.receiveAttack(coordinate)
+    }    
+
+
 }
