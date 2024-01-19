@@ -1,4 +1,4 @@
-export default class Ship {
+export class Ship {
     constructor(length){
         this.length = length;
         this.sunkStatus = false;
@@ -43,11 +43,8 @@ export class Gameboard {
     }
 
     receiveAttack(coordinate){
-        // const coordinate = this.convertCoordinateToNumber(coordinateLetter, coordinateNumber);
-
         if (!this.gameboardSlots[coordinate]){
             this.gameboardSlots[coordinate] = 'miss';
-        }else if (this.gameboardSlots[coordinate] === 'miss' || this.gameboardSlots[coordinate] === 'hit'){
         }else{
             this.allShips[this.gameboardSlots[coordinate]].hit();
             if(this.allShips[this.gameboardSlots[coordinate]].isSunk()){
@@ -55,6 +52,14 @@ export class Gameboard {
             }
             this.gameboardSlots[coordinate] = 'hit';
 
+        }
+    }
+
+    isValidAttack(coordinate){
+        if (this.gameboardSlots[coordinate] === 'miss' || this.gameboardSlots[coordinate] === 'hit'){
+            return false;
+        }else{
+            return true
         }
     }
 
@@ -93,7 +98,7 @@ export class Gameboard {
     }
 }
 
-export class Player {
+export default class Player {
     constructor(){
         this.isTheirTurn = false;
         this.gameboard = new Gameboard;
@@ -103,6 +108,28 @@ export class Player {
     sendAttack(gameboard, coordinate){
         gameboard.receiveAttack(coordinate)
     }    
+
+    enableEnemyBoard(enemy, enemyCells, enemyDiv){
+        enemyCells.forEach((e) => {
+            e.addEventListener('click', () => {
+                enemy.gameboard.receiveAttack(e.dataset.cell);
+                enemy.gameboard.renderBoard(enemyDiv);
+            })
+        })
+    }
+
+    makeRandomMove(enemy, enemyCells, enemyDiv){
+        let computerChoice = Math.floor(Math.random() * 100);
+        while(!enemy.gameboard.isValidAttack(computerChoice)){
+            computerChoice = Math.floor(Math.random() * 100);
+        }
+        console.log(computerChoice);
+
+        enemy.gameboard.receiveAttack(computerChoice);
+        enemy.gameboard.renderBoard(enemyDiv)
+
+
+    }
 
 
 }
