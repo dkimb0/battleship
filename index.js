@@ -30,8 +30,15 @@ player.gameboard.renderShip(player.gameboard.placeShip(4, 'horizontal', 'B', 6, 
 
 computerCells.forEach((e) => {
     e.addEventListener('click', () => {
-        computer.gameboard.receiveAttack(e.dataset.cell);
-        computer.gameboard.renderBoard(computerDiv);
+        if(computer.gameboard.isValidAttack(e.dataset.cell)){
+            computer.gameboard.receiveAttack(e.dataset.cell);
+            computer.gameboard.renderBoard(computerDiv);
+            console.log(`computer lost: ${computer.gameboard.allShipsSunkCheck()}`);
+            
+            computer.makeRandomMove(player, playerCells, playerDiv);
+            console.log(`player lost: ${player.gameboard.allShipsSunkCheck()}`);
+
+        }
     }
     )
 })
@@ -41,23 +48,3 @@ let gameOver = false;
 // while(!gameOver){
 //     let currentTurn = 1;
 // }
-
-computer.makeRandomMove(player, playerCells, playerDiv);
-computer.makeRandomMove(player, playerCells, playerDiv);
-computer.makeRandomMove(player, playerCells, playerDiv);
-computer.makeRandomMove(player, playerCells, playerDiv);
-computer.makeRandomMove(player, playerCells, playerDiv);
-computer.makeRandomMove(player, playerCells, playerDiv);
-computer.makeRandomMove(player, playerCells, playerDiv);
-
-
-// to test, run for loop for 10 to try out 10 turns:
-let currentTurn = 1;
-for (let i = 0; i < 10; i++){
-    if (currentTurn % 2 === 1){
-
-    }else{
-
-    }
-
-}

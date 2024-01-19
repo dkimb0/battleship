@@ -1,4 +1,4 @@
-import Ship, {Gameboard} from "./class.js";
+import Player, {Ship, Gameboard} from "./class.js";
 
 test('hits ship, checks numberOfHits is 1', () => {
     const testShip = new Ship(4);

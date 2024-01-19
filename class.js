@@ -3,6 +3,7 @@ export class Ship {
         this.length = length;
         this.sunkStatus = false;
         this.numberOfHits = 0;
+        this.coordinateArray = []
     }
 
     hit(){
@@ -39,6 +40,8 @@ export class Gameboard {
                 outputArray.push(coordinate+i * 10);
             }
         }
+
+        this.allShips[shipName].coordinateArray = outputArray;
         return outputArray;
     }
 
@@ -64,16 +67,17 @@ export class Gameboard {
     }
 
     allShipsSunkCheck(){
-        let booleanHolder = false;
+        let booleanHolder = [];
         for(const boat in this.allShips){
             if(this.allShips[boat].isSunk()){
-                booleanHolder = true;
+                booleanHolder.push(true);
             }else{
-                booleanHolder = false;
+                booleanHolder.push(false);
             }
         }
 
-        return booleanHolder;
+        return !booleanHolder.includes(false)
+
     }
 
     convertCoordinateToNumber(coordinateLetter, coordinateNumber){
@@ -100,30 +104,21 @@ export class Gameboard {
 
 export default class Player {
     constructor(){
-        this.isTheirTurn = false;
         this.gameboard = new Gameboard;
-        this.isAI = false;
     }
 
-    sendAttack(gameboard, coordinate){
-        gameboard.receiveAttack(coordinate)
+    sendAttack(enemy, enemyCells, enemyDiv, coordinate){
+        while(!enemy.gameboard.isValidAttack(coordinate)){
+
+        }
+        enemy.gameboard.receiveAttack(coordinate)
     }    
-
-    enableEnemyBoard(enemy, enemyCells, enemyDiv){
-        enemyCells.forEach((e) => {
-            e.addEventListener('click', () => {
-                enemy.gameboard.receiveAttack(e.dataset.cell);
-                enemy.gameboard.renderBoard(enemyDiv);
-            })
-        })
-    }
 
     makeRandomMove(enemy, enemyCells, enemyDiv){
         let computerChoice = Math.floor(Math.random() * 100);
         while(!enemy.gameboard.isValidAttack(computerChoice)){
             computerChoice = Math.floor(Math.random() * 100);
         }
-        console.log(computerChoice);
 
         enemy.gameboard.receiveAttack(computerChoice);
         enemy.gameboard.renderBoard(enemyDiv)
