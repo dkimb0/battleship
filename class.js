@@ -48,18 +48,35 @@ export class Gameboard {
     receiveAttack(coordinate){
         if (!this.gameboardSlots[coordinate]){
             this.gameboardSlots[coordinate] = 'miss';
+            return false;
         }else{
             this.allShips[this.gameboardSlots[coordinate]].hit();
             if(this.allShips[this.gameboardSlots[coordinate]].isSunk()){
                 this.allShips[this.gameboardSlots[coordinate]].sunkStatus = true;
+                this.allShips[this.gameboardSlots[coordinate]].coordinateArray.forEach((coordinate) => {
+                    this.gameboardSlots[coordinate] = 'sunk';
+                })
+            }else{
+                this.gameboardSlots[coordinate] = 'hit';
             }
-            this.gameboardSlots[coordinate] = 'hit';
+            return true;
 
         }
     }
 
-    isValidAttack(coordinate){
-        if (this.gameboardSlots[coordinate] === 'miss' || this.gameboardSlots[coordinate] === 'hit'){
+    isValidAttack(coordinate, gameOver){
+        if (gameOver){
+            return false;
+        }
+        if (!coordinate){
+            return false;
+        }
+        if (coordinate < 0 || coordinate > 99){
+            return false;
+        }
+        if (this.gameboardSlots[coordinate] === 'miss' ||
+            this.gameboardSlots[coordinate] === 'hit' ||
+            this.gameboardSlots[coordinate] === 'sunk'){
             return false;
         }else{
             return true
@@ -97,34 +114,87 @@ export class Gameboard {
                 playerGameboard.querySelector(`div[data-cell='${index}']`).style.backgroundColor = 'red';    
             }else if(slot === 'miss'){
                 playerGameboard.querySelector(`div[data-cell='${index}']`).style.backgroundColor = 'lightblue';
+            }else if (slot === 'sunk'){
+                playerGameboard.querySelector(`div[data-cell='${index}']`).style.backgroundColor = 'pink';
             }
+        })
+    }
+
+    clearBoard(playerGameboard){
+        this.gameboardSlots.forEach((slot, index) => {
+            playerGameboard.querySelector(`div[data-cell='${index}']`).style.backgroundColor = 'white';    
         })
     }
 }
 
 export default class Player {
-    constructor(){
+    constructor(name){
+        this.name = name;
         this.gameboard = new Gameboard;
+        this.movesToMakeAI = [];
     }
 
-    sendAttack(enemy, enemyCells, enemyDiv, coordinate){
-        while(!enemy.gameboard.isValidAttack(coordinate)){
-
+    makeRandomMove(enemy, enemyCells, enemyDiv, gameOver){
+        if(gameOver){
+            return;
         }
-        enemy.gameboard.receiveAttack(coordinate)
-    }    
 
-    makeRandomMove(enemy, enemyCells, enemyDiv){
-        let computerChoice = Math.floor(Math.random() * 100);
+        let isHit = false;
+        let computerChoice;
+
+
+
         while(!enemy.gameboard.isValidAttack(computerChoice)){
-            computerChoice = Math.floor(Math.random() * 100);
+            if(this.movesToMakeAI.length > 0){
+                computerChoice = this.movesToMakeAI.pop();
+            }else{
+                computerChoice = Math.floor(Math.random() * 100);
+            }
+    
         }
 
-        enemy.gameboard.receiveAttack(computerChoice);
+
+
+        console.log(computerChoice);
+        isHit = enemy.gameboard.receiveAttack(computerChoice);
+        if(isHit){
+            if(enemy.gameboard.isValidAttack(computerChoice+1)){
+                this.movesToMakeAI.push(computerChoice+1);
+            }
+            if(enemy.gameboard.isValidAttack(computerChoice-1)){
+                this.movesToMakeAI.push(computerChoice-1);
+            }
+            if(enemy.gameboard.isValidAttack(computerChoice+10)){
+                this.movesToMakeAI.push(computerChoice+10);
+            }
+            if(enemy.gameboard.isValidAttack(computerChoice-10)){
+                this.movesToMakeAI.push(computerChoice-10);
+            }
+
+        }
         enemy.gameboard.renderBoard(enemyDiv)
 
+    }
+
+    gameOver(enemy, gameOver, div){
+        if(gameOver === true){
+            return true;
+        }
+        
+        if(this.gameboard.allShipsSunkCheck()){
+            div.textContent = `game over. ${enemy.name} wins`;
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    playerAttack(enemy, enemyDiv){
 
     }
 
+    placeShips(){
+
+    }
 
 }
