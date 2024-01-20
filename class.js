@@ -157,20 +157,24 @@ export default class Player {
 
         console.log(computerChoice);
         isHit = enemy.gameboard.receiveAttack(computerChoice);
-        if(isHit){
-            if(enemy.gameboard.isValidAttack(computerChoice+1)){
-                this.movesToMakeAI.push(computerChoice+1);
-            }
-            if(enemy.gameboard.isValidAttack(computerChoice-1)){
-                this.movesToMakeAI.push(computerChoice-1);
-            }
-            if(enemy.gameboard.isValidAttack(computerChoice+10)){
-                this.movesToMakeAI.push(computerChoice+10);
-            }
-            if(enemy.gameboard.isValidAttack(computerChoice-10)){
-                this.movesToMakeAI.push(computerChoice-10);
-            }
 
+        if(isHit){
+            if(enemy.gameboard.gameboardSlots[computerChoice] === 'sunk'){
+                this.movesToMakeAI = [];
+            }else{
+                if(enemy.gameboard.isValidAttack(computerChoice+1)){
+                    this.movesToMakeAI.push(computerChoice+1);
+                }
+                if(enemy.gameboard.isValidAttack(computerChoice-1)){
+                    this.movesToMakeAI.push(computerChoice-1);
+                }
+                if(enemy.gameboard.isValidAttack(computerChoice+10)){
+                    this.movesToMakeAI.push(computerChoice+10);
+                }
+                if(enemy.gameboard.isValidAttack(computerChoice-10)){
+                    this.movesToMakeAI.push(computerChoice-10);
+                }
+            }
         }
         enemy.gameboard.renderBoard(enemyDiv)
 
