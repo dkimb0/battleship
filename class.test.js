@@ -61,3 +61,8 @@ test('check if all ships in allShips obj are sunk (false)', () => {
     testGameboard.receiveAttack(1);
     expect(testGameboard.allShipsSunkCheck()).toBeFalsy();
 })
+
+test('randomPlaceShips orientation and randomLetter/Number generation', ()=>{
+    const player = new Player('player');
+    player.gameboard.randomPlaceShips(player, 5);
+})

@@ -125,6 +125,57 @@ export class Gameboard {
             playerGameboard.querySelector(`div[data-cell='${index}']`).style.backgroundColor = 'white';    
         })
     }
+
+    randomPlaceShips(player, shipLength){
+        let isValidShipPlacement = false;
+        let orientation;
+        let randomLetter;
+        let randomNumber;
+        let randomCoordinateString;
+        let shipCoordinateArray = [];
+
+        console.log(orientation);
+        console.log(randomLetter);
+        console.log(randomNumber);
+
+
+        while (!isValidShipPlacement){
+            //if orientation is 1: vertical, 2: horizontal
+            orientation = Math.floor(Math.random() * 2) + 1;
+            randomLetter = Math.floor(Math.random() * 10) + 65;
+            randomNumber = Math.floor(Math.random() * 10) + 1;
+            console.log(orientation);
+            console.log(randomLetter);
+            console.log(randomNumber);
+    
+            if (orientation === 1){
+                for(let i = 0; i < shipLength; i++ ){
+                    randomCoordinateString = `${String.fromCharCode(randomLetter + i)}+${randomNumber}`;
+                    shipCoordinateArray.push(randomCoordinateString);
+                }
+            }else{
+                for(let i = 0; i < shipLength; i++){
+                    randomCoordinateString = `${String.fromCharCode(randomLetter)}+${randomNumber+i}`;
+                    shipCoordinateArray.push(randomCoordinateString);
+                }
+            }
+
+            isValidShipPlacement = true;
+
+            shipCoordinateArray.forEach((coordinate) => {
+                let coordinateNumber = this.convertCoordinateToNumber(coordinate[0], coordinate.slice(1));
+                if(this.gameboardSlots[coordinateNumber]){
+                    isValidShipPlacement = false;
+                }
+            })
+
+            if (isValidShipPlacement){
+                console.log('success');
+            }
+        }
+        
+
+    }
 }
 
 export default class Player {
