@@ -126,51 +126,63 @@ export class Gameboard {
         })
     }
 
-    randomPlaceShips(player, shipLength){
+    randomPlaceShips(shipLength, shipName){
         let isValidShipPlacement = false;
         let orientation;
         let randomLetter;
         let randomNumber;
         let randomCoordinateString;
-        let shipCoordinateArray = [];
-
-        console.log(orientation);
-        console.log(randomLetter);
-        console.log(randomNumber);
+        let shipCoordinateArray;
 
 
         while (!isValidShipPlacement){
+            shipCoordinateArray = [];
             //if orientation is 1: vertical, 2: horizontal
             orientation = Math.floor(Math.random() * 2) + 1;
+            let orientationString;
+            if (orientation === 1){
+                orientationString = 'vertical';
+            }else if(orientation === 2){
+                orientationString = 'horizontal';
+            }
             randomLetter = Math.floor(Math.random() * 10) + 65;
             randomNumber = Math.floor(Math.random() * 10) + 1;
-            console.log(orientation);
-            console.log(randomLetter);
-            console.log(randomNumber);
     
             if (orientation === 1){
                 for(let i = 0; i < shipLength; i++ ){
-                    randomCoordinateString = `${String.fromCharCode(randomLetter + i)}+${randomNumber}`;
+                    randomCoordinateString = `${String.fromCharCode(randomLetter + i)}${randomNumber}`;
                     shipCoordinateArray.push(randomCoordinateString);
                 }
             }else{
                 for(let i = 0; i < shipLength; i++){
-                    randomCoordinateString = `${String.fromCharCode(randomLetter)}+${randomNumber+i}`;
+                    randomCoordinateString = `${String.fromCharCode(randomLetter)}${randomNumber+i}`;
                     shipCoordinateArray.push(randomCoordinateString);
                 }
             }
 
+            console.log(shipCoordinateArray);
+
             isValidShipPlacement = true;
 
             shipCoordinateArray.forEach((coordinate) => {
+                console.log(coordinate[0]);
+                console.log(coordinate.slice(1));
                 let coordinateNumber = this.convertCoordinateToNumber(coordinate[0], coordinate.slice(1));
                 if(this.gameboardSlots[coordinateNumber]){
+                    isValidShipPlacement = false;
+                }
+                if(coordinateNumber > 99){
+                    isValidShipPlacement = false;
+                }
+                //for horizontal wrapping
+                if(orientation === 2 && randomNumber + shipLength -1 > 10 ){
                     isValidShipPlacement = false;
                 }
             })
 
             if (isValidShipPlacement){
                 console.log('success');
+                return this.placeShip(shipLength, orientationString, String.fromCharCode(randomLetter), randomNumber, shipName);
             }
         }
         
