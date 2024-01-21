@@ -19,7 +19,8 @@ const newGameButton = document.getElementById('newGameButton');
 const messageBox = document.getElementById('message');
 
 newGameButton.addEventListener('click', (e) => {
-    clearGameboards();
+    player.gameboard.clearBoard(playerDiv);
+    computer.gameboard.clearBoard(computerDiv);
     initNewGame();
 })
 
@@ -27,17 +28,8 @@ function initNewGame(){
     //generate, place and render ships:
     gameOver = false;
     messageBox.textContent = '';
-    // computer.gameboard.renderShip(computer.gameboard.placeShip(5, 'vertical', 'C', 3, 'carrier'), computerDiv, 'white');
-    // computer.gameboard.renderShip(computer.gameboard.placeShip(3, 'vertical', 'A', 2, 'cruiser'), computerDiv, 'white');
-    // computer.gameboard.renderShip(computer.gameboard.placeShip(3, 'horizontal', 'F', 6, 'submarine'), computerDiv, 'white');
-    // computer.gameboard.renderShip(computer.gameboard.placeShip(2, 'vertical', 'D', 7, 'destroyer'), computerDiv, 'white');
-    // computer.gameboard.renderShip(computer.gameboard.placeShip(4, 'horizontal', 'A', 5, 'battleship'), computerDiv, 'white');
-    
+ 
     // player.gameboard.renderShip(player.gameboard.placeShip(5, 'vertical', 'E', 4, 'carrier'), playerDiv, 'lightgrey');
-    // player.gameboard.renderShip(player.gameboard.placeShip(3, 'vertical', 'B', 1, 'cruiser'), playerDiv,'lightgrey');
-    // player.gameboard.renderShip(player.gameboard.placeShip(3, 'horizontal', 'F', 6, 'submarine'), playerDiv, 'lightgrey');
-    // player.gameboard.renderShip(player.gameboard.placeShip(2, 'vertical', 'H', 8, 'destroyer'), playerDiv, 'lightgrey');
-    // player.gameboard.renderShip(player.gameboard.placeShip(4, 'horizontal', 'B', 6, 'battleship'), playerDiv, 'lightgrey');
     computer.gameboard.renderShip(computer.gameboard.randomPlaceShips(5, 'carrier'), computerDiv, 'white');
     computer.gameboard.renderShip(computer.gameboard.randomPlaceShips(3, 'cruiser'), computerDiv,'white');
     computer.gameboard.renderShip(computer.gameboard.randomPlaceShips(3, 'submarine'), computerDiv, 'white');
@@ -65,16 +57,4 @@ function initNewGame(){
         }
         )
     })
-}
-
-function clearGameboards(){
-    //clear gameboard visually
-    player.gameboard.clearBoard(playerDiv);
-    computer.gameboard.clearBoard(computerDiv);
-    //set gameboardSlots to new Arrray(100);
-    player.gameboard.gameboardSlots = new Array(100);
-    computer.gameboard.gameboardSlots = new Array(100);
-    //set this.allShips to {};
-    player.gameboard.allShips = {};
-    computer.gameboard.allShips = {};
 }

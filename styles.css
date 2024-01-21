@@ -31,10 +31,6 @@
     
 }
 
-.buttonbox{
-    margin-top: 2rem;
-}
-
 body {
     display: flex;
     flex-direction: column;
@@ -55,4 +51,15 @@ h1 {
     display: flex;
     justify-content: space-between;
     gap: 30px;
+}
+
+#controlsContainer{
+    display: flex;
+    flex-direction: column;
+    margin-top: 24px;
+    gap: 12px;
+}
+
+#newGameButton{
+    padding: 24px;
 }

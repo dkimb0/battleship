@@ -124,6 +124,8 @@ export class Gameboard {
         this.gameboardSlots.forEach((slot, index) => {
             playerGameboard.querySelector(`div[data-cell='${index}']`).style.backgroundColor = 'white';    
         })
+        this.gameboardSlots = new Array(100);
+        this.allShips = {};
     }
 
     randomPlaceShips(shipLength, shipName){
