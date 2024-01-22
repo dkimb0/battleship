@@ -30,13 +30,7 @@ function initNewGame(){
     gameOver = false;
     messageBox.textContent = '';
  
-    // player.gameboard.renderShip(player.gameboard.placeShip(5, 'vertical', 'E', 4, 'carrier'), playerDiv, 'lightgrey');
-    // computer.gameboard.renderShip(computer.gameboard.randomPlaceShips(5, 'carrier'), computerDiv, 'white');
-    // computer.gameboard.renderShip(computer.gameboard.randomPlaceShips(3, 'cruiser'), computerDiv,'white');
-    // computer.gameboard.renderShip(computer.gameboard.randomPlaceShips(3, 'submarine'), computerDiv, 'white');
-    // computer.gameboard.renderShip(computer.gameboard.randomPlaceShips(2, 'destroyer'), computerDiv, 'white');
-    // computer.gameboard.renderShip(computer.gameboard.randomPlaceShips(4, 'battleship'), computerDiv, 'white');
-
+    //remove ship names, useless?
     computer.gameboard.randomPlaceShips(5, 'carrier');
     computer.gameboard.randomPlaceShips(3, 'cruiser');
     computer.gameboard.randomPlaceShips(3, 'submarine');
@@ -56,13 +50,13 @@ function initNewGame(){
                 computer.gameboard.receiveAttack(e.dataset.cell);
                 computer.gameboard.renderBoard(computerDiv);
 
-                gameOver = computer.gameOver(player, gameOver, messageBox);
+                gameOver = computer.gameOverCheck(player, gameOver, messageBox);
 
                 playerEnabled = false;
 
                 setTimeout(()=>{
                     computer.makeRandomMove(player, playerDiv, gameOver);
-                    gameOver = player.gameOver(computer, gameOver, messageBox);
+                    gameOver = player.gameOverCheck(computer, gameOver, messageBox);
                     playerEnabled = true;
                 }, 1000);
             }

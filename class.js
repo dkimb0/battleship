@@ -25,19 +25,19 @@ export class Gameboard {
         this.gameboardSlots = new Array(100);
         this.allShips = {};
     }
-
-    placeShip(length, orientation, coordinateLetter, coordinateNumber, shipName){
+    //switch out orientation for isVertical? then we can just do true/false
+    placeShip(length, isVertical, coordinateLetter, coordinateNumber, shipName){
         let coordinate = this.convertCoordinateToNumber(coordinateLetter, coordinateNumber);
         this.allShips[shipName] = new Ship(length);
         const outputArray = [];
 
         for (let i = 0; i < length; i++){
-            if(orientation === 'horizontal'){
-                this.gameboardSlots[coordinate + i] = shipName;
-                outputArray.push(coordinate + i);
-            }else if(orientation === 'vertical'){
+            if(isVertical){
                 this.gameboardSlots[coordinate + i*10] = shipName;
                 outputArray.push(coordinate+i * 10);
+            }else{
+                this.gameboardSlots[coordinate + i] = shipName;
+                outputArray.push(coordinate + i);
             }
         }
 
@@ -68,10 +68,7 @@ export class Gameboard {
         if (gameOver){
             return false;
         }
-        if (!coordinate){
-            return false;
-        }
-        if (coordinate < 0 || coordinate > 99){
+        if (coordinate < 0 || coordinate > 99 || coordinate === null){
             return false;
         }
         if (this.gameboardSlots[coordinate] === 'miss' ||
@@ -120,9 +117,9 @@ export class Gameboard {
         })
     }
 
-    clearBoard(playerGameboard){
+    clearBoard(playerDiv){
         this.gameboardSlots.forEach((slot, index) => {
-            playerGameboard.querySelector(`div[data-cell='${index}']`).style.backgroundColor = 'white';    
+            playerDiv.querySelector(`div[data-cell='${index}']`).style.backgroundColor = 'white';    
         })
         this.gameboardSlots = new Array(100);
         this.allShips = {};
@@ -130,7 +127,7 @@ export class Gameboard {
 
     randomPlaceShips(shipLength, shipName){
         let isValidShipPlacement = false;
-        let orientation;
+        let isVertical;
         let randomLetter;
         let randomNumber;
         let randomCoordinateString;
@@ -140,17 +137,11 @@ export class Gameboard {
         while (!isValidShipPlacement){
             shipCoordinateArray = [];
             //if orientation is 1: vertical, 2: horizontal
-            orientation = Math.floor(Math.random() * 2) + 1;
-            let orientationString;
-            if (orientation === 1){
-                orientationString = 'vertical';
-            }else if(orientation === 2){
-                orientationString = 'horizontal';
-            }
+            isVertical = Math.random() < 0.5;
             randomLetter = Math.floor(Math.random() * 10) + 65;
             randomNumber = Math.floor(Math.random() * 10) + 1;
     
-            if (orientation === 1){
+            if (isVertical){
                 for(let i = 0; i < shipLength; i++ ){
                     randomCoordinateString = `${String.fromCharCode(randomLetter + i)}${randomNumber}`;
                     shipCoordinateArray.push(randomCoordinateString);
@@ -177,14 +168,14 @@ export class Gameboard {
                     isValidShipPlacement = false;
                 }
                 //for horizontal wrapping
-                if(orientation === 2 && randomNumber + shipLength -1 > 10 ){
+                if(!isVertical && randomNumber + shipLength -1 > 10 ){
                     isValidShipPlacement = false;
                 }
             })
 
             if (isValidShipPlacement){
                 console.log('success');
-                return this.placeShip(shipLength, orientationString, String.fromCharCode(randomLetter), randomNumber, shipName);
+                return this.placeShip(shipLength, isVertical, String.fromCharCode(randomLetter), randomNumber, shipName);
             }
         }
         
@@ -200,14 +191,10 @@ export default class Player {
     }
 
     makeRandomMove(enemy, enemyDiv, gameOver){
-        if(gameOver){
-            return;
-        }
+        if(gameOver) return;
 
         let isHit = false;
-        let computerChoice;
-
-
+        let computerChoice = null;
 
         while(!enemy.gameboard.isValidAttack(computerChoice)){
             if(this.movesToMakeAI.length > 0){
@@ -215,10 +202,7 @@ export default class Player {
             }else{
                 computerChoice = Math.floor(Math.random() * 100);
             }
-    
         }
-
-
 
         isHit = enemy.gameboard.receiveAttack(computerChoice);
 
@@ -241,28 +225,18 @@ export default class Player {
             }
         }
         enemy.gameboard.renderBoard(enemyDiv)
-
     }
 
-    gameOver(enemy, gameOver, div){
+    gameOverCheck(enemy, gameOver, messageDiv){
         if(gameOver === true){
             return true;
         }
         
         if(this.gameboard.allShipsSunkCheck()){
-            div.textContent = `game over. ${enemy.name} wins`;
+            messageDiv.textContent = `game over. ${enemy.name} wins`;
             return true;
         }else{
             return false;
         }
     }
-
-    playerAttack(enemy, enemyDiv){
-
-    }
-
-    placeShips(){
-
-    }
-
 }
