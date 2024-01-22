@@ -6,6 +6,7 @@ import Player from "./class.js";
 const player = new Player('player');
 const computer = new Player('computer');
 let gameOver = true;
+let playerEnabled = true;
 
 //query selector of each player's gameboard div
 const playerDiv = document.querySelector('#playerOneGameboard');
@@ -30,11 +31,17 @@ function initNewGame(){
     messageBox.textContent = '';
  
     // player.gameboard.renderShip(player.gameboard.placeShip(5, 'vertical', 'E', 4, 'carrier'), playerDiv, 'lightgrey');
-    computer.gameboard.renderShip(computer.gameboard.randomPlaceShips(5, 'carrier'), computerDiv, 'white');
-    computer.gameboard.renderShip(computer.gameboard.randomPlaceShips(3, 'cruiser'), computerDiv,'white');
-    computer.gameboard.renderShip(computer.gameboard.randomPlaceShips(3, 'submarine'), computerDiv, 'white');
-    computer.gameboard.renderShip(computer.gameboard.randomPlaceShips(2, 'destroyer'), computerDiv, 'white');
-    computer.gameboard.renderShip(computer.gameboard.randomPlaceShips(4, 'battleship'), computerDiv, 'white');
+    // computer.gameboard.renderShip(computer.gameboard.randomPlaceShips(5, 'carrier'), computerDiv, 'white');
+    // computer.gameboard.renderShip(computer.gameboard.randomPlaceShips(3, 'cruiser'), computerDiv,'white');
+    // computer.gameboard.renderShip(computer.gameboard.randomPlaceShips(3, 'submarine'), computerDiv, 'white');
+    // computer.gameboard.renderShip(computer.gameboard.randomPlaceShips(2, 'destroyer'), computerDiv, 'white');
+    // computer.gameboard.renderShip(computer.gameboard.randomPlaceShips(4, 'battleship'), computerDiv, 'white');
+
+    computer.gameboard.randomPlaceShips(5, 'carrier');
+    computer.gameboard.randomPlaceShips(3, 'cruiser');
+    computer.gameboard.randomPlaceShips(3, 'submarine');
+    computer.gameboard.randomPlaceShips(2, 'destroyer');
+    computer.gameboard.randomPlaceShips(4, 'battleship');
 
     player.gameboard.renderShip(player.gameboard.randomPlaceShips(5, 'carrier'), playerDiv, 'lightgrey');
     player.gameboard.renderShip(player.gameboard.randomPlaceShips(3, 'cruiser'), playerDiv,'lightgrey');
@@ -42,17 +49,22 @@ function initNewGame(){
     player.gameboard.renderShip(player.gameboard.randomPlaceShips(2, 'destroyer'), playerDiv, 'lightgrey');
     player.gameboard.renderShip(player.gameboard.randomPlaceShips(4, 'battleship'), playerDiv, 'lightgrey');
 
+
     computerCells.forEach((e) => {
         e.addEventListener('click', () => {
-            if(computer.gameboard.isValidAttack(e.dataset.cell, gameOver)){
+            if(computer.gameboard.isValidAttack(e.dataset.cell, gameOver) && playerEnabled){
                 computer.gameboard.receiveAttack(e.dataset.cell);
                 computer.gameboard.renderBoard(computerDiv);
 
                 gameOver = computer.gameOver(player, gameOver, messageBox);
-                
-                computer.makeRandomMove(player, playerCells, playerDiv, gameOver);
-                gameOver = player.gameOver(computer, gameOver, messageBox);
-    
+
+                playerEnabled = false;
+
+                setTimeout(()=>{
+                    computer.makeRandomMove(player, playerDiv, gameOver);
+                    gameOver = player.gameOver(computer, gameOver, messageBox);
+                    playerEnabled = true;
+                }, 1000);
             }
         }
         )

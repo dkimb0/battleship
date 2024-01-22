@@ -199,7 +199,7 @@ export default class Player {
         this.movesToMakeAI = [];
     }
 
-    makeRandomMove(enemy, enemyCells, enemyDiv, gameOver){
+    makeRandomMove(enemy, enemyDiv, gameOver){
         if(gameOver){
             return;
         }
@@ -220,7 +220,6 @@ export default class Player {
 
 
 
-        console.log(computerChoice);
         isHit = enemy.gameboard.receiveAttack(computerChoice);
 
         if(isHit){
